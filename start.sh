@@ -1,6 +1,4 @@
 #!/bin/sh
-# Install dependencies
-npm run install
-
-# Start backend
-npm run start
+echo "MONGO_URI=$MONGO_URI"
+cd backend
+npm start
