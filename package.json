@@ -1,0 +1,11 @@
+{
+  "name": "survey-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install": "cd backend && npm install && cd ../frontend && npm install",
+    "start": "cd backend && npm run start",
+    "start:frontend": "cd frontend && npm run dev",
+    "start:backend": "cd backend && npm run start"
+  }
+}
