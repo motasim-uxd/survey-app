@@ -1,0 +1,22 @@
+{
+  "name": "survey-app",
+  "services": [
+    {
+      "name": "backend",
+      "type": "node",
+      "build": "npm install --prefix backend",
+      "start": "npm run start --prefix backend",
+      "env": [
+        "MONGO_URI",
+        "PORT"
+      ]
+    },
+    {
+      "name": "frontend",
+      "type": "node",
+      "build": "npm install --prefix frontend && npm run build --prefix frontend",
+      "start": "npm run preview --prefix frontend",
+      "env": []
+    }
+  ]
+}
