@@ -68,11 +68,22 @@ export default function SurveyForm() {
     );
 
     try {
-      await axios.post("http://localhost:5000/api/surveys", fd);
+
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/surveys`,
+        {
+          ...formData,
+          workTypes
+        }
+      );
+
+      /*await axios.post("http://localhost:5000/api/surveys", fd);
       alert("Survey submitted successfully");
 
       setFormData({ shopName: "", email: "", address: "", remarks: "" });
-      setWorkTypes(workTypesList.map((t) => ({ type: t, dimensions: [] })));
+      setWorkTypes(workTypesList.map((t) => ({ type: t, dimensions: [] })));*/
+      console.log("API URL:", import.meta.env.VITE_API_URL);
+
     } catch (err) {
       console.error(err);
       alert("Submission failed");
