@@ -45,11 +45,57 @@ export function validateSurveyRequest(req) {
   /* ===============================
      Dimensions
   =============================== */
-  if (!Array.isArray(data.dimensions) || data.dimensions.length === 0) {
+  /*if (!Array.isArray(data.dimensions) || data.dimensions.length === 0) {
     throw new Error("At least one dimension is required");
+  }*/
+
+    if (!Array.isArray(wt.dimensions)) {
+      throw new Error(`Invalid dimensions array at workType ${wtIndex}`);
+    }
+
+    let expectedImageCount = 0;
+
+  wt.dimensions.forEach((dim, dimIndex) => {
+    const width = Number(dim.width);
+    const height = Number(dim.height);
+    const imagesCount = Number(dim.imagesCount);
+
+    if (
+      Number.isNaN(width) ||
+      Number.isNaN(height) ||
+      width <= 0 ||
+      height <= 0
+    ) {
+      throw new Error(
+        `Invalid width/height at workType ${wtIndex}, dimension ${dimIndex}`
+      );
+    }
+
+    if (
+      Number.isNaN(imagesCount) ||
+      imagesCount < 0
+    ) {
+      throw new Error(
+        `Invalid imagesCount at workType ${wtIndex}, dimension ${dimIndex}`
+      );
+    }
+
+    // Normalize values
+    dim.width = width;
+    dim.height = height;
+    dim.imagesCount = imagesCount;
+
+    expectedImageCount += imagesCount;
+  });
+
+  if (req.files.length !== expectedImageCount) {
+    throw new Error(
+      `Expected ${expectedImageCount} images but received ${req.files.length}`
+    );
   }
 
-  let expectedImageCount = 0;
+
+/*  let expectedImageCount = 0;
 
   data.dimensions.forEach((dim, index) => {
     const width = Number(dim.width);
@@ -80,7 +126,7 @@ export function validateSurveyRequest(req) {
 
     expectedImageCount += dim.imagesCount;
   });
-
+*/
   /* ===============================
      Images consistency
   =============================== */
