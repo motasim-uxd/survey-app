@@ -12,11 +12,13 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({origin:true, credentials:true}));
 app.use(express.json({ limit: "20mb" }));
 app.use("/api/surveys", surveyRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
+app.set("trust proxy", 1);
 
 // Connect DB
 connectDB();
