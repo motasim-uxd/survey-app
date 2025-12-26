@@ -53,7 +53,7 @@ export function validateSurveyRequest(req) {
       throw new Error(`Invalid dimensions array at workType ${wtIndex}`);
     }
 
-    let expectedImageCount = 0;
+
 
   wt.dimensions.forEach((dim, dimIndex) => {
     const width = Number(dim.width);
