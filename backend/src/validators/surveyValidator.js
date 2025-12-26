@@ -52,14 +52,24 @@ export function validateSurveyRequest(req) {
   let expectedImageCount = 0;
 
   data.dimensions.forEach((dim, index) => {
+    const width = Number(dim.width);
+    const height = Number(dim.height);
+
     if (
-      typeof dim.width !== "number" ||
-      typeof dim.height !== "number" ||
-      dim.width <= 0 ||
-      dim.height <= 0
+      Number.isNaN(width) ||
+      Number.isNaN(height) ||
+      width <= 0 ||
+      height <= 0
     ) {
-      throw new Error(`Invalid width/height at dimension index ${index}`);
+      throw new Error(
+        `Invalid width/height at workType ${wtIndex}, dimension ${dimIndex}`
+      );
     }
+
+    // overwrite with coerced values
+    dim.width = width;
+    dim.height = height;
+
 
     if (
       typeof dim.imagesCount !== "number" ||
