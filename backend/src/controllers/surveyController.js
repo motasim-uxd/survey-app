@@ -23,10 +23,8 @@ export const createSurvey = async (req, res) => {
        - Validates image count
        - Attaches parsed data to req
     ================================================= */
-    validateSurveyRequest(req);
-
-    // Safe, validated, already-parsed data
-    const data = req.validatedSurveyData;
+    const data = JSON.parse(req.body.data);
+    validateSurveyRequest(data);
 
     /* =================================================
        STEP 2: HARD RESET IMAGES FROM CLIENT JSON
@@ -74,10 +72,6 @@ export const createSurvey = async (req, res) => {
       error: error.message
     });
   }
-  return res.status(201).json({
-    success: true,
-    message: "Survey submitted successfully",
-  });
 
 };
 

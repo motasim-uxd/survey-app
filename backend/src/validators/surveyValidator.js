@@ -1,5 +1,53 @@
 // validators/surveyValidator.js
 
+console.log("SURVEY VALIDATOR LOADED — VERSION 2");
+export const validateSurveyRequest = (data) => {
+  console.log("VALIDATOR HIT — workTypes:", data?.workTypes);
+  if (!data || typeof data !== "object") {
+    throw new Error("Invalid payload");
+  }
+
+  if (!Array.isArray(data.workTypes)) {
+    throw new Error("Invalid workTypes format");
+  }
+
+  data.workTypes.forEach((wt, wtIndex) => {
+    if (typeof wt.type !== "string" || !wt.type.trim()) {
+      throw new Error(`Invalid workType at index ${wtIndex}`);
+    }
+
+    if (!Array.isArray(wt.dimensions)) {
+      throw new Error(`Invalid dimensions array at workType ${wtIndex}`);
+    }
+
+    wt.dimensions.forEach((dim, dimIndex) => {
+      const width = Number(dim.width);
+      const height = Number(dim.height);
+
+      if (
+        Number.isNaN(width) ||
+        Number.isNaN(height) ||
+        width <= 0 ||
+        height <= 0
+      ) {
+        throw new Error(
+          `Invalid width/height at workType ${wtIndex}, dimension ${dimIndex}`
+        );
+      }
+
+      if (
+        typeof dim.imagesCount !== "number" ||
+        dim.imagesCount < 0
+      ) {
+        throw new Error(
+          `Invalid imagesCount at workType ${wtIndex}, dimension ${dimIndex}`
+        );
+      }
+    });
+  });
+};
+
+/*
 export function validateSurveyRequest(req) {
   if (!req.body || !req.body.data) {
     throw new Error("Missing survey data");
@@ -12,9 +60,6 @@ export function validateSurveyRequest(req) {
     throw new Error("Invalid JSON payload");
   }
 
-  /* ===============================
-     Required string fields
-  =============================== */
   const requiredStringFields = ["shopName", "email", "address"];
 
   for (const field of requiredStringFields) {
@@ -31,9 +76,6 @@ export function validateSurveyRequest(req) {
     throw new Error("remarks must be a string");
   }
 
-  /* ===============================
-     Work Types
-  =============================== */
   if (!Array.isArray(data.workTypes) || data.workTypes.length === 0) {
     throw new Error("At least one work type is required");
   }
@@ -42,19 +84,17 @@ export function validateSurveyRequest(req) {
     throw new Error("Invalid workTypes format");
   }
 
-  /* ===============================
-     Dimensions
-  =============================== */
+
   /*if (!Array.isArray(data.dimensions) || data.dimensions.length === 0) {
     throw new Error("At least one dimension is required");
   }*/
 
-    if (!Array.isArray(wt.dimensions)) {
+    /*if (!Array.isArray(wt.dimensions)) {
       throw new Error(`Invalid dimensions array at workType ${wtIndex}`);
-    }
+    }*/
 
 
-
+/*
   wt.dimensions.forEach((dim, dimIndex) => {
     const width = Number(dim.width);
     const height = Number(dim.height);
@@ -130,7 +170,7 @@ export function validateSurveyRequest(req) {
   /* ===============================
      Images consistency
   =============================== */
-  const uploadedImages = req.files || [];
+/*  const uploadedImages = req.files || [];
 
   if (uploadedImages.length !== expectedImageCount) {
     throw new Error(
@@ -138,8 +178,7 @@ export function validateSurveyRequest(req) {
     );
   }
 
-  /* ===============================
-     Attach parsed data for reuse
-  =============================== */
+
+
   req.validatedSurveyData = data;
-}
+}*/
