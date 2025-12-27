@@ -2,7 +2,8 @@ import express from "express";
 import { createSurvey, getAllSurveys, getSurveyById } from "../controllers/surveyController.js";
 //import { submitSurvey } from "../controllers/surveyController.js";
 //import { protect } from "../middleware/authMiddleware.js"; // JWT auth middleware
-import upload from "../config/multer.js";
+//import upload from "../config/multer.js";
+import upload from "../middleware/uploads.js";
 
 const router = express.Router();
 

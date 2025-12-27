@@ -11,7 +11,10 @@ import { validateSurveyRequest } from "../validators/surveyValidator.js";
 const TEMP_SURVEYOR_ID = new mongoose.Types.ObjectId();
 
 export const createSurvey = async (req, res) => {
+  console.log("CREATE SURVEY HIT");
   try {
+    console.log("FILES:", req.files?.length);
+    console.log("BODY:", req.body);
     /* =================================================
        STEP 1: VALIDATE REQUEST (STRUCTURE + CONSISTENCY)
        - Parses JSON
@@ -71,6 +74,11 @@ export const createSurvey = async (req, res) => {
       error: error.message
     });
   }
+  return res.status(201).json({
+    success: true,
+    message: "Survey submitted successfully",
+  });
+
 };
 
 /**
